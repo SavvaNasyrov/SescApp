@@ -67,6 +67,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SescApp.Integration\SescApp.Integration.csproj" />
     <ProjectReference Include="..\SescApp.Shared\SescApp.Shared.csproj" />
   </ItemGroup>
 

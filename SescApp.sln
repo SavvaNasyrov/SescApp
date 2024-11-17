@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35506.116 d17.12
+VisualStudioVersion = 17.12.35506.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SescApp", "SescApp\SescApp\SescApp.csproj", "{8E31C47F-F5BE-4061-8270-E661D2DDD819}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SescApp.Web", "SescApp\SescApp.Web\SescApp.Web.csproj", "{F4B48F26-A5F0-4BDC-B81F-E54165546692}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SescApp.Web.Client", "SescApp\SescApp.Web.Client\SescApp.Web.Client.csproj", "{73FF0E2F-699F-4DC8-B643-D57A37D7AD8D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SescApp.Integration", "SescApp\SescApp.Integration\SescApp.Integration.csproj", "{38AD92EE-87C7-4E33-BA2B-59E0FD09D495}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{73FF0E2F-699F-4DC8-B643-D57A37D7AD8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73FF0E2F-699F-4DC8-B643-D57A37D7AD8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73FF0E2F-699F-4DC8-B643-D57A37D7AD8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38AD92EE-87C7-4E33-BA2B-59E0FD09D495}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38AD92EE-87C7-4E33-BA2B-59E0FD09D495}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38AD92EE-87C7-4E33-BA2B-59E0FD09D495}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38AD92EE-87C7-4E33-BA2B-59E0FD09D495}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
