@@ -1,63 +1,229 @@
 ﻿@page "/weather"
+@using SescApp.Integration.Schedule.Models
+@using SescApp.Integration.Schedule.Models.ScheduleRows
+@using SescApp.Integration.Schedule.Services
+@using SescApp.Shared.Services
+@inject IFormFactor FormFactor
+@inject IScheduleService ScheduleService
+<PageTitle>Расписание</PageTitle>
 
-<PageTitle>Weather</PageTitle>
+<h1>Расписание</h1>
 
-<h1>Weather</h1>
-
-<p>This component demonstrates showing data.</p>
-
-@if (forecasts == null)
+@if (schedule == null)
 {
-    <p><em>Loading...</em></p>
+    <p>Loading...</p>
 }
 else
 {
-    <table class="table">
-        <thead>
+    @if (schedule.Row1 is SimpleScheduleRow row1)
+    {
+        <tr>
+            <td>9:00-9:40</td>
+            <td>@row1.Lesson.View</td>
+        </tr>
+    }
+    else{
+        @if (schedule.Row1 is EmptyScheduleRow emptyrow1)
+        {
+
             <tr>
-                <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
+                <td>9:00-9:40</td>
+                <td></td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var forecast in forecasts)
+        }
+        else {
+            @if (schedule.Row1 is DividedScheduleRow Dividedrow1)
             {
                 <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
+                    <td>9:00-9:40</td>
+                    <td>@Dividedrow1.FirstLesson.View</td>
+                    <td>@Dividedrow1.SecondLesson.View</td>
                 </tr>
             }
-        </tbody>
-    </table>
-}
+        }
+    }
+    @if (schedule.Row2 is SimpleScheduleRow row2)
+    {
+        <tr>
+            <td>9:50-10:30</td>
+            <td>@row2.Lesson.View</td>
+        </tr>
+    }
+    else
+    {
+        @if (schedule.Row2 is EmptyScheduleRow emptyrow2)
+        {
 
+            <tr>
+                <td>9:50-10:30</td>
+                <td></td>
+            </tr>
+        }
+        else
+        {
+            @if (schedule.Row2 is DividedScheduleRow Dividedrow2)
+            {
+                <tr>
+                    <td>9:50-10:30</td>
+                    <td>@Dividedrow2.FirstLesson.View</td>
+                    <td>@Dividedrow2.SecondLesson.View</td>
+                </tr>
+            }
+        }
+    }
+    @if (schedule.Row3 is SimpleScheduleRow row3)
+    {
+        <tr>
+            <td>10:45-11:25</td>
+            <td>@row3.Lesson.View</td>
+        </tr>
+    }
+    else
+    {
+        @if (schedule.Row3 is EmptyScheduleRow emptyrow3)
+        {
+
+            <tr>
+                <td>10:45-11:25</td>
+                <td></td>
+            </tr>
+        }
+        else
+        {
+            @if (schedule.Row3 is DividedScheduleRow Dividedrow3)
+            {
+                <tr>
+                    <td>10:45-11:25</td>
+                    <td>@Dividedrow3.FirstLesson.View</td>
+                    <td>@Dividedrow3.SecondLesson.View</td>
+                </tr>
+            }
+        }
+    }
+    @if (schedule.Row4 is SimpleScheduleRow row4)
+    {
+        <tr>
+            <td>11:40-12:20</td>
+            <td>@row4.Lesson.View</td>
+        </tr>
+    }
+    else
+    {
+        @if (schedule.Row4 is EmptyScheduleRow emptyrow4)
+        {
+
+            <tr>
+                <td>11:40-12:20</td>
+                <td></td>
+            </tr>
+        }
+        else
+        {
+            @if (schedule.Row4 is DividedScheduleRow Dividedrow4)
+            {
+                <tr>
+                    <td>11:40-12:20</td>
+                    <td>@Dividedrow4.FirstLesson.View</td>
+                    <td>@Dividedrow4.SecondLesson.View</td>
+                </tr>
+            }
+        }
+    }
+    @if (schedule.Row5 is SimpleScheduleRow row5)
+    {
+        <tr>
+            <td>12:35-13:15</td>
+            <td>@row5.Lesson.View</td>
+        </tr>
+    }
+    else
+    {
+        @if (schedule.Row5 is EmptyScheduleRow emptyrow5)
+        {
+
+            <tr>
+                <td>12:35-13:15</td>
+                <td></td>
+            </tr>
+        }
+        else
+        {
+            @if (schedule.Row5 is DividedScheduleRow Dividedrow5)
+            {
+                <tr>
+                    <td>12:35-13:15</td>
+                    <td>@Dividedrow5.FirstLesson.View</td>
+                    <td>@Dividedrow5.SecondLesson.View</td>
+                </tr>
+            }
+        }
+    }
+    @if (schedule.Row6 is SimpleScheduleRow row6)
+    {
+        <tr>
+            <td>13:35-14:15</td>
+            <td>@row6.Lesson.View</td>
+        </tr>
+    }
+    else
+    {
+        @if (schedule.Row6 is EmptyScheduleRow emptyrow6)
+        {
+
+            <tr>
+                <td>13:35-14:15</td>
+                <td></td>
+            </tr>
+        }
+        else
+        {
+            @if (schedule.Row6 is DividedScheduleRow Dividedrow6)
+            {
+                <tr>
+                    <td>13:35-14:15</td>
+                    <td>@Dividedrow6.FirstLesson.View</td>
+                    <td>@Dividedrow6.SecondLesson.View</td>
+                </tr>
+            }
+        }
+    }
+    @if (schedule.Row7 is SimpleScheduleRow row7)
+    {
+        <tr>
+            <td>14:35-15:15</td>
+            <td>@row7.Lesson.View</td>
+        </tr>
+    }
+    else
+    {
+        @if (schedule.Row7 is EmptyScheduleRow emptyrow7)
+        {
+
+            <tr>
+                <td>14:35-15:15</td>
+                <td></td>
+            </tr>
+        }
+        else
+        {
+            @if (schedule.Row7 is DividedScheduleRow Dividedrow7)
+            {
+                <tr>
+                    <td>14:35-15:15</td>
+                    <td>@Dividedrow7.FirstLesson.View</td>
+                    <td>@Dividedrow7.SecondLesson.View</td>
+                </tr>
+            }
+        }
+    }
+}
 @code {
-    private WeatherForecast[]? forecasts;
+    private string factor => FormFactor.GetFormFactor();
+    private string platform => FormFactor.GetPlatform();
+    private SheduleModel schedule;
 
     protected override async Task OnInitializedAsync()
     {
-        // Simulate asynchronous loading to demonstrate a loading indicator
-        await Task.Delay(500);
-
-        var startDate = DateOnly.FromDateTime(DateTime.Now);
-        var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
-        forecasts = Enumerable.Range(1, 5).Select(index => new WeatherForecast
-        {
-            Date = startDate.AddDays(index),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = summaries[Random.Shared.Next(summaries.Length)]
-        }).ToArray();
-    }
-
-    private class WeatherForecast
-    {
-        public DateOnly Date { get; set; }
-        public int TemperatureC { get; set; }
-        public string? Summary { get; set; }
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+        schedule = await ScheduleService.GetScheduleAsync();
     }
 }
