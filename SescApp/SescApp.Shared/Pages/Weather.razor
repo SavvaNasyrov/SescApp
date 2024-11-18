@@ -14,7 +14,14 @@
     <p>Loading...</p>
 }
 else
-{
+{   <table class="table">
+        <thead>
+            <tr>
+                <th>Время</th>
+                <th>Уроки</th>
+            </tr>
+        </thead>
+        <tbody>
     @if (schedule.Row1 is SimpleScheduleRow row1)
     {
         <tr>
@@ -152,8 +159,7 @@ else
             {
                 <tr>
                     <td>12:35-13:15</td>
-                    <td>@Dividedrow5.FirstLesson.View</td>
-                    <td>@Dividedrow5.SecondLesson.View</td>
+                    <td><a>@Dividedrow5.FirstLesson.View</a><a>@Dividedrow5.SecondLesson.View</a></td>
                 </tr>
             }
         }
@@ -216,6 +222,8 @@ else
             }
         }
     }
+    </tbody>
+</table>
 }
 @code {
     private string factor => FormFactor.GetFormFactor();
