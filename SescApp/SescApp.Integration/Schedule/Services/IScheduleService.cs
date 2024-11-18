@@ -1,5 +1,4 @@
-﻿using SescApp.Integration.Schedule.DomainModels;
-using SescApp.Integration.Schedule.Models;
+﻿using SescApp.Integration.Schedule.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

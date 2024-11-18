@@ -1,8 +1,8 @@
-﻿namespace SescApp.Integration.Schedule.DomainModels
+﻿namespace SescApp.Integration.Schedule.Models
 {
     public enum Weekday
     {
-        Monday = 1, 
+        Monday = 1,
         Tuesday = 2,
         Wednesday = 3,
         Thursday = 4,

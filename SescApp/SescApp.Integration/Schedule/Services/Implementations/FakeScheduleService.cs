@@ -5,7 +5,7 @@ namespace SescApp.Integration.Schedule.Services.Implementations
 {
     public class FakeScheduleService : IScheduleService
     {
-        public Task<ScheduleModel> GetScheduleAsync(DomainModels.GetScheduleRequest req)
+        public Task<ScheduleModel> GetScheduleAsync(GetScheduleRequest req)
         {
             return Task.FromResult(new ScheduleModel
             {

@@ -1,4 +1,4 @@
-﻿namespace SescApp.Integration.Schedule.DomainModels
+﻿namespace SescApp.Integration.Schedule.Models
 {
     public enum ScheduleType
     {

@@ -228,10 +228,10 @@ else
 @code {
     private string factor => FormFactor.GetFormFactor();
     private string platform => FormFactor.GetPlatform();
-    private SheduleModel schedule;
+    private ScheduleModel? schedule;
 
     protected override async Task OnInitializedAsync()
     {
-        schedule = await ScheduleService.GetScheduleAsync();
+        schedule = await ScheduleService.GetScheduleAsync(new GetScheduleRequest(ScheduleType.Group, Weekday.Wednesday, 9));
     }
 }
