@@ -21,7 +21,7 @@ namespace SescApp
             // Add device-specific services used by the SescApp.Shared project
             builder.Services.AddSingleton<IFormFactor, FormFactor>();
 
-            builder.Services.AddScoped<IScheduleService, FakeScheduleService>();
+            builder.Services.AddScoped<IScheduleService, ScheduleService>();
 
             builder.Services.AddMauiBlazorWebView();
 

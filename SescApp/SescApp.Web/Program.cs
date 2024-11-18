@@ -14,7 +14,9 @@ builder.Services.AddRazorComponents()
 // Add device-specific services used by the SescApp.Shared project
 builder.Services.AddSingleton<IFormFactor, FormFactor>();
 
-builder.Services.AddScoped<IScheduleService, FakeScheduleService>();
+builder.Services.AddHttpClient();
+
+builder.Services.AddScoped<IScheduleService, ScheduleService>();
 
 var app = builder.Build();
 

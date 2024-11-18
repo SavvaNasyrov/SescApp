@@ -1,6 +1,6 @@
 ﻿namespace SescApp.Integration.Schedule.Models
 {
-    public record SheduleModel
+    public record ScheduleModel
     {
         public required IScheduleRow Row1 { get; init; }
 

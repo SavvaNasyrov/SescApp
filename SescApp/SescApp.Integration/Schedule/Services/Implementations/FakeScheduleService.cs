@@ -5,9 +5,9 @@ namespace SescApp.Integration.Schedule.Services.Implementations
 {
     public class FakeScheduleService : IScheduleService
     {
-        public Task<SheduleModel> GetScheduleAsync()
+        public Task<ScheduleModel> GetScheduleAsync(DomainModels.GetScheduleRequest req)
         {
-            return Task.FromResult(new SheduleModel
+            return Task.FromResult(new ScheduleModel
             {
                 Row1 = new EmptyScheduleRow(),
                 Row2 = new SimpleScheduleRow(new Lesson("goooool, with goyda, 201")),

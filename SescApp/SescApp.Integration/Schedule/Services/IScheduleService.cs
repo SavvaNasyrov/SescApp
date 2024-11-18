@@ -1,4 +1,5 @@
-﻿using SescApp.Integration.Schedule.Models;
+﻿using SescApp.Integration.Schedule.DomainModels;
+using SescApp.Integration.Schedule.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace SescApp.Integration.Schedule.Services
 {
     public interface IScheduleService
     {
-        public Task<SheduleModel> GetScheduleAsync();
+        public Task<ScheduleModel> GetScheduleAsync(GetScheduleRequest request);
     }
 }
