@@ -10,6 +10,6 @@ public interface ILycregService
     public Task<Dictionary<string, Dictionary<string, string>>> GetTabelAsync();
     public Task<Dictionary<string, string>> GetSubjectListAsync();
     public Task<List<TeachListResponse>> GetTeachListAsync();
-    public Task<Dictionary<string, Dictionary<string, List<>>>> GetJournalAsync();
+    public Task<Dictionary<string, Dictionary<string, List<string>>>> GetJournalAsync();
     // TODO: дописать модельку для GetJournalAsync
 }
