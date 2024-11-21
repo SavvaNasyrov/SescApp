@@ -1,6 +1,7 @@
 ﻿using System.Text.Json.Serialization;
+using SescApp.Integration.Schedule.DomainModels;
 
-namespace SescApp.Integration.Schedule.DomainModels
+namespace SescApp.Integration.Lycreg.DomainModels
 {
     public record GetScheduleResponse
     {

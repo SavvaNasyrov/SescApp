@@ -1,6 +1,7 @@
+using SescApp.Integration.Lycreg.DomainModels;
 using SescApp.Integration.Schedule.DomainModels;
 
-namespace SescApp.Integration.Schedule.Services;
+namespace SescApp.Integration.Lycreg.Services;
 
 
 public interface ILycregService
