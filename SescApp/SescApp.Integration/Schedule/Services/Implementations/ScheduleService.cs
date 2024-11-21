@@ -2,12 +2,7 @@
 using SescApp.Integration.Schedule.DomainModels;
 using SescApp.Integration.Schedule.Models;
 using SescApp.Integration.Schedule.Models.ScheduleRows;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http.Json;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SescApp.Integration.Schedule.Services.Implementations
 {

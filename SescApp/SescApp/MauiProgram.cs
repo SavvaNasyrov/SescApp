@@ -4,7 +4,6 @@ using SescApp.Integration.Schedule.Services;
 using SescApp.Integration.Schedule.Services.Implementations;
 using SescApp.Services;
 using SescApp.Shared.Services;
-using System.Reflection;
 
 namespace SescApp
 {
