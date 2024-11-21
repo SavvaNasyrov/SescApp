@@ -1,5 +1,5 @@
-using SescApp.Integration.Schedule.Services.Implementations;
 using SescApp.Integration.Schedule.Services;
+using SescApp.Integration.Schedule.Services.Implementations;
 using SescApp.Shared.Services;
 using SescApp.Web.Components;
 using SescApp.Web.Services;
