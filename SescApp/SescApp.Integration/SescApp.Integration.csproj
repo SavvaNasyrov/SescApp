@@ -10,4 +10,8 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Lycreg\Models\" />
+  </ItemGroup>
+
 </Project>
