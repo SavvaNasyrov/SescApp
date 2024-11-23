@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace SescApp.Integration.Schedule.DomainModels;
+namespace SescApp.Integration.Lycreg.DomainModels;
 
 public record TeachListResponse
 {
