@@ -7,9 +7,9 @@ namespace SescApp.Integration.Lycreg.Services;
 public interface ILycregService
 {
     public Task<AuthResponse> AuthorizationAsync(string login, string password);
-    public Task<Dictionary<string, Dictionary<string, string>>> GetTabelAsync();
-    public Task<Dictionary<string, string>> GetSubjectListAsync();
-    public Task<List<TeachListResponse>> GetTeachListAsync();
-    public Task<Dictionary<string, Dictionary<string, List<string>>>> GetJournalAsync();
+    public Task<Dictionary<string, Dictionary<string, string>>?> GetTabelAsync();
+    public Task<Dictionary<string, string>?> GetSubjectListAsync();
+    public Task<List<TeachListResponse>?> GetTeachListAsync();
+    public Task<Dictionary<string, Dictionary<string, List<string>>>?> GetJournalAsync();
     // TODO: дописать модельку для GetJournalAsync
 }
