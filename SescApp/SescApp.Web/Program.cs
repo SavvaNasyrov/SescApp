@@ -1,3 +1,5 @@
+using SescApp.Integration.Lycreg.Services;
+using SescApp.Integration.Lycreg.Services.Implementations;
 using SescApp.Integration.Schedule.Services;
 using SescApp.Integration.Schedule.Services.Implementations;
 using SescApp.Shared.Services;
@@ -17,6 +19,10 @@ builder.Services.AddSingleton<IFormFactor, FormFactor>();
 builder.Services.AddHttpClient();
 
 builder.Services.AddScoped<IScheduleService, ScheduleService>();
+
+builder.Services.AddTransient<ICaptchaSolver, CaptchaSolver>();
+
+builder.Services.AddScoped<ILycregService, LycregService>();
 
 var app = builder.Build();
 

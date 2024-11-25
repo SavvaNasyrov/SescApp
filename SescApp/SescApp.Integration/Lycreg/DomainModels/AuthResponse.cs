@@ -9,7 +9,7 @@ public record AuthResponse
 
     [JsonPropertyName("token")]
     public required string Token { get; init; }
-    
+
     [JsonPropertyName("teachLoad")]
     public required Dictionary<string, string> TeachLoad { get; init; }
 }

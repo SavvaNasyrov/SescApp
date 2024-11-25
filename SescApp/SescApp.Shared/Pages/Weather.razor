@@ -143,9 +143,7 @@ else
             <td>@row5.Lesson.View</td>
         </tr>
     }
-    else
-    {
-        @if (schedule.Row5 is EmptyScheduleRow emptyrow5)
+    else if (schedule.Row5 is EmptyScheduleRow emptyRow5)
         {
 
             <tr>
@@ -153,16 +151,14 @@ else
                 <td></td>
             </tr>
         }
-        else
+    else if (schedule.Row5 is DividedScheduleRow dividedRow5)
         {
-            @if (schedule.Row5 is DividedScheduleRow Dividedrow5)
-            {
-                <tr>
-                    <td>12:35-13:15</td>
-                    <td><a>@Dividedrow5.FirstLesson.View</a><a>@Dividedrow5.SecondLesson.View</a></td>
-                </tr>
-            }
+            <tr>
+                <td>12:35-13:15</td>
+                <td><a>@dividedRow5.FirstLesson.View</a><a>@dividedRow5.SecondLesson.View</a></td>
+            </tr>
         }
+    }
     }
     @if (schedule.Row6 is SimpleScheduleRow row6)
     {
@@ -171,27 +167,21 @@ else
             <td>@row6.Lesson.View</td>
         </tr>
     }
-    else
+    else if (schedule.Row6 is EmptyScheduleRow emptyRow6)
     {
-        @if (schedule.Row6 is EmptyScheduleRow emptyrow6)
-        {
 
-            <tr>
-                <td>13:35-14:15</td>
-                <td></td>
-            </tr>
-        }
-        else
-        {
-            @if (schedule.Row6 is DividedScheduleRow Dividedrow6)
-            {
-                <tr>
-                    <td>13:35-14:15</td>
-                    <td>@Dividedrow6.FirstLesson.View</td>
-                    <td>@Dividedrow6.SecondLesson.View</td>
-                </tr>
-            }
-        }
+        <tr>
+            <td>13:35-14:15</td>
+            <td></td>
+        </tr>
+    }
+    else if (schedule.Row6 is DividedScheduleRow dividedRow6)
+    {
+        <tr>
+            <td>13:35-14:15</td>
+            <td>@dividedRow6.FirstLesson.View</td>
+            <td>@dividedRow6.SecondLesson.View</td>
+        </tr>
     }
     @if (schedule.Row7 is SimpleScheduleRow row7)
     {
@@ -200,27 +190,21 @@ else
             <td>@row7.Lesson.View</td>
         </tr>
     }
-    else
+    else if (schedule.Row7 is EmptyScheduleRow emptyrow7)
     {
-        @if (schedule.Row7 is EmptyScheduleRow emptyrow7)
-        {
 
-            <tr>
-                <td>14:35-15:15</td>
-                <td></td>
-            </tr>
-        }
-        else
-        {
-            @if (schedule.Row7 is DividedScheduleRow Dividedrow7)
-            {
-                <tr>
-                    <td>14:35-15:15</td>
-                    <td>@Dividedrow7.FirstLesson.View</td>
-                    <td>@Dividedrow7.SecondLesson.View</td>
-                </tr>
-            }
-        }
+        <tr>
+            <td>14:35-15:15</td>
+            <td></td>
+        </tr>
+    }
+    else if (schedule.Row7 is DividedScheduleRow Dividedrow7)
+    {
+        <tr>
+            <td>14:35-15:15</td>
+            <td>@Dividedrow7.FirstLesson.View</td>
+            <td>@Dividedrow7.SecondLesson.View</td>
+        </tr>
     }
     </tbody>
 </table>
