@@ -13,13 +13,13 @@ public class LycregService(HttpClient httpClient, IConfiguration config, IServic
 
     private readonly HttpClient _httpClient = httpClient;
 
-    private readonly IServiceProvider services = services;
+    private readonly IServiceProvider _services = services;
 
     public Authorization? Auth { private get; set; }
 
     public async Task<(AuthorizationResult, Authorization? Auth)> AuthorizationAsync(string login, string password)
     {
-        var captchaSolver = services.GetRequiredService<ICaptchaSolver>();
+        var captchaSolver = _services.GetRequiredService<ICaptchaSolver>();
 
         var (captchaId, captchaSolution) = await captchaSolver.GetSolvedCaptcha();
 

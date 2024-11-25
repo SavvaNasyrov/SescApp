@@ -2,10 +2,10 @@
 {
     public record Authorization
     {
-        public List<LycregRole>? Roles { get; init; }
+        public required List<LycregRole> Roles { get; init; }
 
-        public string? Token { get; init; }
+        public required string Token { get; init; }
 
-        public Dictionary<string, string>? TeachLoad { get; init; }
+        public required Dictionary<string, string> TeachLoad { get; init; }
     }
 }

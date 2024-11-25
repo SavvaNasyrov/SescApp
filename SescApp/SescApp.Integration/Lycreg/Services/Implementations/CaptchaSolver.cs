@@ -6,7 +6,7 @@ public class CaptchaSolver(HttpClient httpClient, IConfiguration config) : ICapt
 {
     private readonly string _lycregSource = config["Paths:Lycreg"] ?? throw new KeyNotFoundException("Paths:Lycreg");
 
-    private static readonly Dictionary<(int, int), int> ColumnsPairs = new Dictionary<(int, int), int>
+    private static readonly Dictionary<(int, int), int> _columnsPairs = new Dictionary<(int, int), int>
     {
         {(524287, 458759), 0}, {(24579, 49155), 0}, {(7, 131071), 1}, {(415, 111), 1},
         {(126983, 258079), 2}, {(24591, 57371), 2}, {(519935, 462343), 3}, {(115459, 99075), 3},
@@ -15,7 +15,7 @@ public class CaptchaSolver(HttpClient httpClient, IConfiguration config) : ICapt
         {(524287, 462343), 8}, {(27, 15), 8}, {(459207, 459143), 9}, {(57731, 49347), 9}
     };
 
-    private static readonly Dictionary<long, int> Num2I = new Dictionary<long, int>
+    private static readonly Dictionary<long, int> _powersOf2 = new Dictionary<long, int>
     {
         {0, 0}, {1, 0}, {2, 1}, {4, 2}, {8, 3}, {16, 4}, {32, 5}, {64, 6}, {128, 7},
         {256, 8}, {512, 9}, {1024, 10}, {2048, 11}, {4096, 12}, {8192, 13}, {16384, 14},
@@ -54,7 +54,7 @@ public class CaptchaSolver(HttpClient httpClient, IConfiguration config) : ICapt
         for (var i = 0; i < 121; i++)
         {
             var number = Convert.ToInt32(Convert.ToHexString(data.Array, data.Offset + i * 121, 121), 2);
-            numbers.Add(number >> Num2I[number & -number]);
+            numbers.Add(number >> _powersOf2[number & -number]);
         }
 
         var solution = string.Empty;
@@ -67,7 +67,7 @@ public class CaptchaSolver(HttpClient httpClient, IConfiguration config) : ICapt
             {
                 waitFor0 = false;
             }
-            else if (ColumnsPairs.TryGetValue(pair, out int value))
+            else if (_columnsPairs.TryGetValue(pair, out int value))
             {
                 solution += value.ToString();
                 waitFor0 = true;
