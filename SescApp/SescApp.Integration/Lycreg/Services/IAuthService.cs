@@ -4,7 +4,7 @@ using SescApp.Integration.Lycreg.Models;
 namespace SescApp.Integration.Lycreg.Services;
 
 
-public interface ILycregService
+public interface IAuthService
 {
     public Task<(AuthorizationResult, Authorization? Auth)> AuthorizationAsync(string login, string password);
 

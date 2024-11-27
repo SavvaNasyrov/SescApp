@@ -7,20 +7,14 @@ using System.Net.Http.Json;
 
 namespace SescApp.Integration.Lycreg.Services.Implementations;
 
-public class LycregService(HttpClient httpClient, IConfiguration config, IServiceProvider services) : ILycregService
+public class AuthService(HttpClient httpClient, IConfiguration config, ICaptchaSolver captchaSolver) : IAuthService
 {
     private readonly string _lycregSource = config["Paths:Lycreg"] ?? throw new KeyNotFoundException("Paths:Lycreg");
 
     private readonly HttpClient _httpClient = httpClient;
 
-    private readonly IServiceProvider _services = services;
-
-    public Authorization? Auth { private get; set; }
-
     public async Task<(AuthorizationResult, Authorization? Auth)> AuthorizationAsync(string login, string password)
     {
-        var captchaSolver = _services.GetRequiredService<ICaptchaSolver>();
-
         var (captchaId, captchaSolution) = await captchaSolver.GetSolvedCaptcha();
 
         var authRequest = new
@@ -56,14 +50,14 @@ public class LycregService(HttpClient httpClient, IConfiguration config, IServic
 
         var roles = authData.Roles.Select(role => Enum.Parse<LycregRole>(role, ignoreCase: true)).ToList();
 
-        Auth = new Authorization
+        var auth = new Authorization
         {
             Roles = roles,
             Token = authData.Token,
             TeachLoad = authData.TeachLoad,
         };
 
-        return (AuthorizationResult.Success, Auth);
+        return (AuthorizationResult.Success, auth);
     }
 
     public Task<Dictionary<string, Dictionary<string, List<string>>>?> GetJournalAsync(string token, string login)

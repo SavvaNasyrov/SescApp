@@ -22,7 +22,7 @@ builder.Services.AddScoped<IScheduleService, ScheduleService>();
 
 builder.Services.AddTransient<ICaptchaSolver, CaptchaSolver>();
 
-builder.Services.AddScoped<ILycregService, LycregService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
 

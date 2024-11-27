@@ -43,7 +43,7 @@ namespace SescApp
 
             builder.Services.AddTransient<ICaptchaSolver, CaptchaSolver>();
 
-            builder.Services.AddScoped<ILycregService, LycregService>();
+            builder.Services.AddScoped<IAuthService, AuthService>();
 
             builder.Services.AddMauiBlazorWebView();
 
