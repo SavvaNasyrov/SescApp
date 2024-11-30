@@ -2,7 +2,7 @@
 {
     public record Authorization
     {
-        public required List<LycregRole> Roles { get; init; }
+        public required List<string> Roles { get; init; }
 
         public required string Token { get; init; }
 

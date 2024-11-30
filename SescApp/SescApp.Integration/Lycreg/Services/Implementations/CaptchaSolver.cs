@@ -25,22 +25,29 @@ public class CaptchaSolver(HttpClient httpClient, IConfiguration config) : ICapt
         {2147483648, 31}
     };
 
-    public async Task<(string CaptchaId, string CaptchaSolution)> GetSolvedCaptcha()
+    public async Task<(string CaptchaId, string CaptchaSolution)> GetSolvedCaptcha(CancellationToken token)
     {
-        var (captchaBytes, captchaId) = await FetchCaptcha();
+        var (captchaBytes, captchaId) = await FetchCaptcha(token);
+
+        token.ThrowIfCancellationRequested();
 
         var captchaSolution = SolveCaptcha(captchaBytes);
 
         return (captchaId, captchaSolution);
     }
 
-    private async Task<(byte[] CaptchaBytes, string CaptchaId)> FetchCaptcha()
+    private async Task<(byte[] CaptchaBytes, string CaptchaId)> FetchCaptcha(CancellationToken token)
     {
-        var response = await httpClient.GetAsync($"{_lycregSource}/cpt.a");
+        var response = await httpClient.GetAsync($"{_lycregSource}/cpt.a", token);
+
+        token.ThrowIfCancellationRequested();
 
         response.EnsureSuccessStatusCode();
 
-        var captchaBytes = await response.Content.ReadAsByteArrayAsync();
+        var captchaBytes = await response.Content.ReadAsByteArrayAsync(token);
+
+        token.ThrowIfCancellationRequested();
+
         var captchaId = response.Headers.GetValues("X-Cpt").First();
 
         return (captchaBytes, captchaId);

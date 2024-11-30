@@ -2,6 +2,6 @@
 {
     public interface ICaptchaSolver
     {
-        public Task<(string CaptchaId, string CaptchaSolution)> GetSolvedCaptcha();
+        public Task<(string CaptchaId, string CaptchaSolution)> GetSolvedCaptcha(CancellationToken token);
     }
 }
