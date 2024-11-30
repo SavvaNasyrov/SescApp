@@ -1,0 +1,64 @@
+﻿@page "/authpreview"
+@using MediatR
+@using SescApp.Integration.Lycreg.Models.MediatR
+@inject IMediator mediator
+
+<h3>AuthPreview</h3>
+
+@if (Auth is null)
+{
+    <EditForm EditContext="@editContext" OnValidSubmit="@HandleAsync">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div>
+            <label for="name">Имя:</label>
+            <InputText id="name" @bind-Value="@login" />
+            <ValidationMessage For="@(() => login)" />
+        </div>
+
+        <div>
+            <label for="email">Email:</label>
+            <InputText id="email" @bind-Value="@password" />
+            <ValidationMessage For="@(() => password)" />
+        </div>
+
+        <button type="submit">Отправить</button>
+    </EditForm>
+}
+else
+{
+    <text>@Auth.Result</text>
+    if (Auth.Result == Integration.Lycreg.Models.AuthorizationResult.Success)
+    {
+        <text>@Auth.Auth!.Token</text>
+    }
+}
+
+@code {
+    private AuthResponse? Auth { get; set; }
+
+    private string login;
+    private string password;
+
+    private EditContext editContext;
+
+    protected override void OnInitialized()
+    {
+        // Инициализация EditContext
+        editContext = new EditContext(this);
+    }
+
+    private async Task HandleAsync()
+    {
+        // Отправка запроса на аутентификацию
+        var resp = await mediator.Send(new AuthRequest()
+            {
+                Login = login,
+                Password = password
+            });
+
+        // Обновление состояния компонента
+        Auth = resp;
+    }
+}

@@ -1,10 +1,12 @@
 using SescApp.Integration.Lycreg.Services;
 using SescApp.Integration.Lycreg.Services.Implementations;
+using SescApp.Integration.Lycreg.Services.MediatR;
 using SescApp.Integration.Schedule.Services;
 using SescApp.Integration.Schedule.Services.Implementations;
 using SescApp.Shared.Services;
 using SescApp.Web.Components;
 using SescApp.Web.Services;
+using System.Reflection.Metadata;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +24,7 @@ builder.Services.AddScoped<IScheduleService, ScheduleService>();
 
 builder.Services.AddTransient<ICaptchaSolver, CaptchaSolver>();
 
-builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddMediatR(x => x.RegisterServicesFromAssembly(typeof(AuthRequestHandler).Assembly));
 
 var app = builder.Build();
 

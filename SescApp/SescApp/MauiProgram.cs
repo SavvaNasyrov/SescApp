@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using SescApp.Integration;
 using SescApp.Integration.Lycreg.Services;
 using SescApp.Integration.Lycreg.Services.Implementations;
 using SescApp.Integration.Schedule.Services;
@@ -43,7 +44,7 @@ namespace SescApp
 
             builder.Services.AddTransient<ICaptchaSolver, CaptchaSolver>();
 
-            builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddMediatR(x => x.RegisterServicesFromAssembly(typeof(AssemblyReference).Assembly));
 
             builder.Services.AddMauiBlazorWebView();
 
