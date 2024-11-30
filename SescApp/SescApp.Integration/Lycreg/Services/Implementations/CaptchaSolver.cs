@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System.Numerics;
+using System.Text;
 
 namespace SescApp.Integration.Lycreg.Services.Implementations;
 
@@ -7,7 +8,7 @@ public class CaptchaSolver(HttpClient httpClient, IConfiguration config) : ICapt
 {
     private readonly string _lycregSource = config["Paths:Lycreg"] ?? throw new KeyNotFoundException("Paths:Lycreg");
 
-    private static readonly Dictionary<(BigInteger, BigInteger), int> _columnsPairs = new()
+    private static readonly Dictionary<(BigInteger, BigInteger), int> COLUMNS_PAIRS = new Dictionary<(BigInteger, BigInteger), int>
     {
         {(524287, 458759), 0}, {(24579, 49155), 0}, {(7, 131071), 1}, {(415, 111), 1},
         {(126983, 258079), 2}, {(24591, 57371), 2}, {(519935, 462343), 3}, {(115459, 99075), 3},
@@ -16,7 +17,7 @@ public class CaptchaSolver(HttpClient httpClient, IConfiguration config) : ICapt
         {(524287, 462343), 8}, {(27, 15), 8}, {(459207, 459143), 9}, {(57731, 49347), 9}
     };
 
-    private static readonly Dictionary<BigInteger, int> _powersOf2 = new Dictionary<BigInteger, int>
+    private static readonly Dictionary<BigInteger, BigInteger> NUM2I = new ()
     {
         {0, 0}, {1, 0}, {2, 1}, {4, 2}, {8, 3}, {16, 4}, {32, 5}, {64, 6}, {128, 7},
         {256, 8}, {512, 9}, {1024, 10}, {2048, 11}, {4096, 12}, {8192, 13}, {16384, 14},
@@ -33,6 +34,8 @@ public class CaptchaSolver(HttpClient httpClient, IConfiguration config) : ICapt
         token.ThrowIfCancellationRequested();
 
         var captchaSolution = SolveCaptcha(captchaBytes);
+
+        await File.WriteAllTextAsync("D:\\Downloads\\фигня\\t.txt", "solution: " + captchaSolution, token);
 
         return (captchaId, captchaSolution);
     }
@@ -51,37 +54,53 @@ public class CaptchaSolver(HttpClient httpClient, IConfiguration config) : ICapt
 
         var captchaId = response.Headers.GetValues("X-Cpt").First();
 
+        await File.WriteAllBytesAsync("D:\\Downloads\\фигня\\img.png", captchaBytes, token);
+
         return (captchaBytes, captchaId);
     }
 
     private static string SolveCaptcha(byte[] captchaBytes)
     {
-        var data = new ArraySegment<byte>(captchaBytes, 104, captchaBytes.Length - 124); // Adjusted for the slice
+        var data = captchaBytes.Skip(104).SkipLast(20).ToArray();
+
         var numbers = new List<BigInteger>();
 
-        for (var i = 0; i < 121; i++)
+        for (int i = 0; i < 121; i++)
         {
-            var number = new BigInteger(data.Array.Skip(data.Offset + i * 121).Take(121).ToArray());
-            numbers.Add(number >> _powersOf2[number & -number]);
+            byte[] subArray = data.Skip(i).Take(3630 - i).Where((b, index) => index % 121 == 0).Select(x =>
+            {
+                if (x == 0x00)
+                    return (byte)0x30;
+                else if (x == 0x01)
+                    return (byte)0x31;
+                else
+                    return x;
+            }).ToArray();
+
+            numbers.Add(new BigInteger(subArray));
         }
 
-        var solution = string.Empty;
+        var columns = numbers.Select(x => x / (x & -x)).ToArray();
+
+        var solution = new StringBuilder();
         var waitFor0 = false;
 
-        for (var i = 0; i < 120; i++)
+        for (int i = 0; i < 120; i++)
         {
-            var pair = (numbers[i], numbers[i + 1]);
+            var pair = (columns[i], columns[i + 1]);
+
             if (waitFor0 && pair.Item2 == 0)
             {
                 waitFor0 = false;
             }
-            else if (_columnsPairs.TryGetValue(pair, out int value))
+            else if (COLUMNS_PAIRS.ContainsKey(pair))
             {
-                solution += value.ToString();
+                solution.Append(COLUMNS_PAIRS[pair]);
                 waitFor0 = true;
             }
         }
 
-        return solution;
+        return solution.ToString(); 
     }
 }
+
