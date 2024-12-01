@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SescApp.Web.Client", "SescA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SescApp.Integration", "SescApp\SescApp.Integration\SescApp.Integration.csproj", "{38AD92EE-87C7-4E33-BA2B-59E0FD09D495}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SescApp.Tests", "SescApp\SescApp.Tests\SescApp.Tests.csproj", "{7690FAB6-A259-469D-BA7D-0983071A21B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +42,10 @@ Global
 		{38AD92EE-87C7-4E33-BA2B-59E0FD09D495}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38AD92EE-87C7-4E33-BA2B-59E0FD09D495}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38AD92EE-87C7-4E33-BA2B-59E0FD09D495}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7690FAB6-A259-469D-BA7D-0983071A21B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7690FAB6-A259-469D-BA7D-0983071A21B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7690FAB6-A259-469D-BA7D-0983071A21B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7690FAB6-A259-469D-BA7D-0983071A21B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
