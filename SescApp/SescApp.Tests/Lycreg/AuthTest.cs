@@ -15,6 +15,7 @@ namespace SescApp.Tests.Lycreg
         private HttpClient _httpClient;
         // private AuthServiceTests _authService;
         private IMediator _mediator;
+        private IConfiguration _configuration;
         
         [TearDown]
         public void TearDown()
@@ -61,8 +62,8 @@ namespace SescApp.Tests.Lycreg
         [SetUp]
         public void Setup()
         {
-            _httpClient = new HttpClient();
-            var configuration = new TestConfiguration();
+            _httpClient = new HttpClient(); 
+            _configuration = new TestConfiguration();
             _mediator = BuildMediator();
         }
 
@@ -71,12 +72,15 @@ namespace SescApp.Tests.Lycreg
         {
             const string login = "login";
             const string password = "password";
+            var captchaSolver = new CaptchaSolver(_httpClient, _configuration);
+            var captchaSolve =  await captchaSolver.Handle(new GetSolvedCaptchaRequest(), CancellationToken.None);
+            
             var authResponse = await _mediator.Send(new AuthRequest()
             {
                 Login = login,
                 Password = password,
-                CaptchaId = "123",
-                CaptchaSolution = "123"
+                CaptchaId = captchaSolve.CaptchaId,
+                CaptchaSolution = captchaSolve.CaptchaSolution
             });
 
             Assert.That(authResponse.Auth, Is.Not.Null, "Авторизация провалилась");
