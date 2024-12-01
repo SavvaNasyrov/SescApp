@@ -1,9 +1,8 @@
-﻿@page "/weather"
+﻿@page "/schedule"
 @using SescApp.Integration.Schedule.Models
 @using SescApp.Integration.Schedule.Models.ScheduleRows
 @using SescApp.Integration.Schedule.Services
 @using SescApp.Shared.Services
-@inject IFormFactor FormFactor
 @inject IScheduleService ScheduleService
 <PageTitle>Расписание</PageTitle>
 
@@ -231,8 +230,6 @@ else
     </table>
 }
 @code {
-    private string factor => FormFactor.GetFormFactor();
-    private string platform => FormFactor.GetPlatform();
     private ScheduleModel? schedule;
 
     protected override async Task OnInitializedAsync()
