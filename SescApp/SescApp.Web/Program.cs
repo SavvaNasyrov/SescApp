@@ -1,6 +1,5 @@
 using SescApp.Integration;
 using SescApp.Integration.Lycreg.Services;
-using SescApp.Integration.Lycreg.Services.Implementations;
 using SescApp.Integration.Lycreg.Services.MediatR;
 using SescApp.Integration.Schedule.Services;
 using SescApp.Integration.Schedule.Services.Implementations;
@@ -21,8 +20,6 @@ builder.Services.AddSingleton<IFormFactor, FormFactor>();
 builder.Services.AddHttpClient();
 
 builder.Services.AddScoped<IScheduleService, ScheduleService>();
-
-builder.Services.AddTransient<ICaptchaSolver, CaptchaSolver>();
 
 builder.Services.AddMediatR(x => x.RegisterServicesFromAssembly(typeof(AssemblyReference).Assembly));
 

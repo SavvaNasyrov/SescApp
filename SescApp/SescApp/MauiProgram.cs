@@ -1,8 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using SescApp.Integration;
-using SescApp.Integration.Lycreg.Services;
-using SescApp.Integration.Lycreg.Services.Implementations;
 using SescApp.Integration.Schedule.Services;
 using SescApp.Integration.Schedule.Services.Implementations;
 using SescApp.Services;
@@ -41,8 +39,6 @@ namespace SescApp
             builder.Services.AddHttpClient();
 
             builder.Services.AddScoped<IScheduleService, ScheduleService>();
-
-            builder.Services.AddTransient<ICaptchaSolver, CaptchaSolver>();
 
             builder.Services.AddMediatR(x => x.RegisterServicesFromAssembly(typeof(AssemblyReference).Assembly));
 

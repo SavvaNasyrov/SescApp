@@ -1,10 +1,12 @@
-﻿using Microsoft.Extensions.Configuration;
-using System.Numerics;
+﻿using MediatR;
+using Microsoft.Extensions.Configuration;
+using SescApp.Integration.Lycreg.Models;
+using SescApp.Integration.Lycreg.Models.MediatR;
 using System.Text;
 
-namespace SescApp.Integration.Lycreg.Services.Implementations;
+namespace SescApp.Integration.Lycreg.Services.MediatR;
 
-public class CaptchaSolver(HttpClient httpClient, IConfiguration config) : ICaptchaSolver
+public class CaptchaSolver(HttpClient httpClient, IConfiguration config) : IRequestHandler<GetSolvedCaptchaRequest, SolvedCaptcha>
 {
     private readonly string _lycregSource = config["Paths:Lycreg"] ?? throw new KeyNotFoundException("Paths:Lycreg");
 
@@ -26,20 +28,25 @@ public class CaptchaSolver(HttpClient httpClient, IConfiguration config) : ICapt
         {2147483648, 31}
     };
 
-    public async Task<(string CaptchaId, string CaptchaSolution)> GetSolvedCaptcha(CancellationToken token)
+    public async Task<SolvedCaptcha> Handle(GetSolvedCaptchaRequest request, CancellationToken cancellationToken)
     {
-        var (captchaBytes, captchaId) = await FetchCaptcha(token);
+        var (captchaBytes, captchaId) = await FetchCaptcha(cancellationToken);
 
-        token.ThrowIfCancellationRequested();
+        cancellationToken.ThrowIfCancellationRequested();
 
         var captchaSolution = SolveCaptcha(captchaBytes);
 
-        return (captchaId, captchaSolution);
+        return new SolvedCaptcha
+        {
+            CaptchaId = captchaId,
+            CaptchaSolution = captchaSolution,
+            CaptchaBytes = captchaBytes,
+        };
     }
 
     private async Task<(byte[] CaptchaBytes, string CaptchaId)> FetchCaptcha(CancellationToken token)
     {
-        var response = await httpClient.GetAsync($"{_lycregSource}/cpt.a", token);
+        var response = await httpClient.GetAsync($"{_lycregSource}cpt.a", token);
 
         token.ThrowIfCancellationRequested();
 

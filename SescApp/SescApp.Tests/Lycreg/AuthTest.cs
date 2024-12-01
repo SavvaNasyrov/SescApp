@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SescApp.Integration.Lycreg.Services;
-using SescApp.Integration.Lycreg.Services.Implementations;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Primitives;
 using SescApp.Integration.Lycreg.Services.MediatR;
@@ -13,7 +12,6 @@ namespace SescApp.Tests.Lycreg
 {
     public class AuthServiceTests
     {
-        private ICaptchaSolver _captchaSolver;
         private HttpClient _httpClient;
         // private AuthServiceTests _authService;
         private IMediator _mediator;
@@ -48,7 +46,6 @@ namespace SescApp.Tests.Lycreg
         {
             var services = new ServiceCollection();
             services.AddSingleton<IConfiguration, TestConfiguration>();
-            services.AddSingleton<ICaptchaSolver, CaptchaSolver>();
             services.AddSingleton<HttpClient, HttpClient>();
             
             services.AddMediatR(cfg =>
@@ -66,7 +63,6 @@ namespace SescApp.Tests.Lycreg
         {
             _httpClient = new HttpClient();
             var configuration = new TestConfiguration();
-            _captchaSolver = new CaptchaSolver(_httpClient, configuration);
             _mediator = BuildMediator();
         }
 
@@ -78,7 +74,9 @@ namespace SescApp.Tests.Lycreg
             var authResponse = await _mediator.Send(new AuthRequest()
             {
                 Login = login,
-                Password = password
+                Password = password,
+                CaptchaId = "123",
+                CaptchaSolution = "123"
             });
 
             Assert.That(authResponse.Auth, Is.Not.Null, "Авторизация провалилась");

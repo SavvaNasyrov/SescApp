@@ -1,5 +1,6 @@
 ﻿@page "/authpreview"
 @using MediatR
+@using SescApp.Integration.Lycreg.Models
 @using SescApp.Integration.Lycreg.Models.MediatR
 @inject IMediator mediator
 
@@ -12,16 +13,32 @@
         <ValidationSummary />
 
         <div>
-            <label for="name">Имя:</label>
+            <label for="name">Логин:</label>
             <InputText id="name" @bind-Value="@login" />
             <ValidationMessage For="@(() => login)" />
         </div>
 
         <div>
-            <label for="email">Email:</label>
-            <InputText id="email" @bind-Value="@password" />
+            <label for="password">Пароль:</label>
+            <InputText id="password" @bind-Value="@password" type="password" />
             <ValidationMessage For="@(() => password)" />
         </div>
+
+
+        @if (solvedCaptcha is not null)
+        {
+            <div>
+                <img src="@($"data:image/png;base64,{Convert.ToBase64String(solvedCaptcha.CaptchaBytes)}")" alt="Капча" />
+                <br />
+                <label for="captcha">Решенная капча</label>
+                <InputText id="captcha" @bind-Value="@solvedCaptcha.CaptchaSolution" />
+                <ValidationMessage For="@(() => solvedCaptcha.CaptchaSolution)" />
+            </div>
+        }
+        else
+        {
+            <p>Капча грузится</p>
+        }
 
         <button type="submit">Отправить</button>
     </EditForm>
@@ -43,10 +60,13 @@ else
 
     private EditContext editContext;
 
-    protected override void OnInitialized()
+    private SolvedCaptcha? solvedCaptcha = null;
+
+    protected override async Task OnInitializedAsync()
     {
-        // Инициализация EditContext
         editContext = new EditContext(this);
+
+        solvedCaptcha = await mediator.Send(new GetSolvedCaptchaRequest());
     }
 
     private async Task HandleAsync()
@@ -55,7 +75,9 @@ else
         var resp = await mediator.Send(new AuthRequest()
             {
                 Login = login,
-                Password = password
+                Password = password,
+                CaptchaId = solvedCaptcha.CaptchaId,
+                CaptchaSolution = solvedCaptcha.CaptchaSolution
             });
 
         // Обновление состояния компонента

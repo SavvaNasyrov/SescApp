@@ -7,9 +7,8 @@ using System.Net.Http.Json;
 
 namespace SescApp.Integration.Lycreg.Services.MediatR
 {
-    public class AuthRequestHandler(ICaptchaSolver captchaSolver, IConfiguration config, HttpClient httpClient) : IRequestHandler<AuthRequest, AuthResponse>
+    public class AuthRequestHandler(IConfiguration config, HttpClient httpClient) : IRequestHandler<AuthRequest, AuthResponse>
     {
-        private readonly ICaptchaSolver _captchaSolver = captchaSolver;
 
         private readonly string _lycregSource = config["Paths:Lycreg"] ?? throw new KeyNotFoundException("Paths:Lycreg");
 
@@ -17,18 +16,14 @@ namespace SescApp.Integration.Lycreg.Services.MediatR
 
         public async Task<AuthResponse> Handle(AuthRequest request, CancellationToken cancellationToken)
         {
-            var (captchaId, captchaSolution) = await _captchaSolver.GetSolvedCaptcha(cancellationToken);
-
-            cancellationToken.ThrowIfCancellationRequested();
-
             var authRequest = new
             {
                 t = request.Role,
                 l = request.Login,
                 p = request.Password,
                 f = "login",
-                ci = captchaId,
-                c = captchaSolution
+                ci = request.CaptchaId,
+                c = request.CaptchaSolution,
             };
 
             var resp = await _httpClient.PostAsJsonAsync(_lycregSource, authRequest, cancellationToken);
