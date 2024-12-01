@@ -49,19 +49,14 @@ namespace SescApp.Integration.Lycreg.Services.MediatR
                 return new AuthResponse { Result = AuthorizationResult.InvalidData };
             }
             
-            // добавляем в json поле Login (его требует моделька Authorization)
-            var jsonResponse = await resp.Content.ReadFromJsonAsync<Dictionary<string, object>>(cancellationToken: cancellationToken);
-            jsonResponse["login"] = request.Login;
-            var jsonResponseSerialised = JsonSerializer.Serialize(jsonResponse);
-            
-            // Преобразуем jsonResponse обратно в объект Authorization
-            var authData = JsonSerializer.Deserialize<Authorization>(jsonResponseSerialised);
-            cancellationToken.ThrowIfCancellationRequested();
+            var authData = await resp.Content.ReadFromJsonAsync<Authorization>(cancellationToken);
 
             if (authData == null)
             {
                 return new AuthResponse { Result = AuthorizationResult.Error };
             }
+
+            authData.Login = request.Login;
 
             return new AuthResponse { Result = AuthorizationResult.Success, Auth = authData };
         }
