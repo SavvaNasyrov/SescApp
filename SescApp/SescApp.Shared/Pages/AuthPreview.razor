@@ -34,13 +34,12 @@
                 <InputText id="captcha" @bind-Value="@solvedCaptcha.CaptchaSolution" />
                 <ValidationMessage For="@(() => solvedCaptcha.CaptchaSolution)" />
             </div>
+            <button type="submit">Отправить</button>
         }
         else
         {
             <p>Капча грузится</p>
         }
-
-        <button type="submit">Отправить</button>
     </EditForm>
 }
 else

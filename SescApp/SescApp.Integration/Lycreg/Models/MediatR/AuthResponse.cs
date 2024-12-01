@@ -1,6 +1,4 @@
-﻿using SescApp.Integration.Lycreg.Models.Domain;
-
-namespace SescApp.Integration.Lycreg.Models.MediatR
+﻿namespace SescApp.Integration.Lycreg.Models.MediatR
 {
     public record AuthResponse
     {

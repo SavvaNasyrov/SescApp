@@ -1,6 +1,4 @@
 using SescApp.Integration;
-using SescApp.Integration.Lycreg.Services;
-using SescApp.Integration.Lycreg.Services.MediatR;
 using SescApp.Integration.Schedule.Services;
 using SescApp.Integration.Schedule.Services.Implementations;
 using SescApp.Shared.Services;

@@ -43,7 +43,7 @@ namespace SescApp.Integration.Lycreg.Services.MediatR
             {
                 return new AuthResponse { Result = AuthorizationResult.InvalidData };
             }
-            
+
             var authData = await resp.Content.ReadFromJsonAsync<DomainAuthorization>(cancellationToken);
 
             if (authData == null)
