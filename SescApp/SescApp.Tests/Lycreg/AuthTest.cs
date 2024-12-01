@@ -1,11 +1,10 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SescApp.Integration.Lycreg.Services;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Primitives;
-using SescApp.Integration.Lycreg.Services.MediatR;
 using SescApp.Integration.Lycreg.Models.MediatR;
+using SescApp.Integration.Lycreg.Services.MediatR;
 
 
 namespace SescApp.Tests.Lycreg
@@ -15,13 +14,13 @@ namespace SescApp.Tests.Lycreg
         private HttpClient _httpClient;
         // private AuthServiceTests _authService;
         private IMediator _mediator;
-        
+
         [TearDown]
         public void TearDown()
         {
             _httpClient.Dispose();
         }
-        
+
         // Custom configuration implementation
         private class TestConfiguration : IConfiguration
         {
@@ -41,13 +40,13 @@ namespace SescApp.Tests.Lycreg
 
             public IConfigurationSection GetSection(string key) => null;
         }
-        
+
         private static IMediator BuildMediator()
         {
             var services = new ServiceCollection();
             services.AddSingleton<IConfiguration, TestConfiguration>();
             services.AddSingleton<HttpClient, HttpClient>();
-            
+
             services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssemblies(typeof(AuthRequestHandler).Assembly);
@@ -57,7 +56,7 @@ namespace SescApp.Tests.Lycreg
 
             return provider.GetRequiredService<IMediator>();
         }
-        
+
         [SetUp]
         public void Setup()
         {
