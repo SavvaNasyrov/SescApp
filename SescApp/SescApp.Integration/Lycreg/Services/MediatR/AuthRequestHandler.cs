@@ -1,9 +1,9 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Configuration;
 using SescApp.Integration.Lycreg.Models;
+using SescApp.Integration.Lycreg.Models.Domain;
 using SescApp.Integration.Lycreg.Models.MediatR;
 using System.Net.Http.Json;
-using System.Text.Json;
 
 namespace SescApp.Integration.Lycreg.Services.MediatR
 {
@@ -49,16 +49,23 @@ namespace SescApp.Integration.Lycreg.Services.MediatR
                 return new AuthResponse { Result = AuthorizationResult.InvalidData };
             }
             
-            var authData = await resp.Content.ReadFromJsonAsync<Authorization>(cancellationToken);
+            var authData = await resp.Content.ReadFromJsonAsync<DomainAuthorization>(cancellationToken);
 
             if (authData == null)
             {
                 return new AuthResponse { Result = AuthorizationResult.Error };
             }
 
-            authData.Login = request.Login;
+            var auth = new Authorization
+            {
+                Login = request.Login,
+                Token = authData.Token,
+                ShortRole = request.Role,
+                Roles = authData.Roles.Select(x => Enum.Parse<LycregRole>(x, ignoreCase: true)).ToList().AsReadOnly(),
+                TeachLoad = authData.TeachLoad,
+            };
 
-            return new AuthResponse { Result = AuthorizationResult.Success, Auth = authData };
+            return new AuthResponse { Result = AuthorizationResult.Success, Auth = auth };
         }
     }
 }
