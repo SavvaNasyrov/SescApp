@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using SescApp.Integration.Lycreg.Models;
 using SescApp.Integration.Lycreg.Models.MediatR;
 using System.Net.Http.Json;
+using System.Text.Json;
 
 namespace SescApp.Integration.Lycreg.Services.MediatR
 {
@@ -47,9 +48,14 @@ namespace SescApp.Integration.Lycreg.Services.MediatR
             {
                 return new AuthResponse { Result = AuthorizationResult.InvalidData };
             }
-
-            var authData = await resp.Content.ReadFromJsonAsync<Authorization>(cancellationToken);
-
+            
+            // добавляем в json поле Login (его требует моделька Authorization)
+            var jsonResponse = await resp.Content.ReadFromJsonAsync<Dictionary<string, object>>(cancellationToken: cancellationToken);
+            jsonResponse["login"] = request.Login;
+            var jsonResponseSerialised = JsonSerializer.Serialize(jsonResponse);
+            
+            // Преобразуем jsonResponse обратно в объект Authorization
+            var authData = JsonSerializer.Deserialize<Authorization>(jsonResponseSerialised);
             cancellationToken.ThrowIfCancellationRequested();
 
             if (authData == null)
