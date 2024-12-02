@@ -96,4 +96,16 @@ public class UtilsTest
         
         Assert.That(result, Is.Not.Null);
     }
+    
+    [Test]
+    public async Task GetTeachList()
+    {
+        var authResponse = await Auth();
+        
+        var utils = new LycregUtils(_httpClient, _configuration);
+        Debug.Assert(authResponse.Auth != null, "_authResponse.Auth != null");
+        var result = await utils.GetTeachListAsync(authResponse.Auth);
+        
+        Assert.That(result, Is.Not.Null);
+    }
 }
