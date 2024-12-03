@@ -5,8 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Primitives;
 using SescApp.Integration.Lycreg.Models.MediatR;
-using SescApp.Integration.Lycreg.Services;
-using SescApp.Integration.Lycreg.Services.Implementations;
 using SescApp.Integration.Lycreg.Services.MediatR;
 
 namespace SescApp.Tests.Lycreg;
@@ -48,10 +46,11 @@ public class UtilsTest
         var services = new ServiceCollection();
         services.AddSingleton<IConfiguration, TestConfiguration>();
         services.AddSingleton<HttpClient, HttpClient>();
+        services.AddMemoryCache();
         
         services.AddMediatR(cfg =>
         {
-            cfg.RegisterServicesFromAssemblies(typeof(AuthRequestHandler).Assembly);
+            cfg.RegisterServicesFromAssemblies(typeof(AuthRequestHandler).Assembly, typeof(TeachListRequestHandler).Assembly);
         });
 
         var provider = services.BuildServiceProvider();
@@ -81,7 +80,7 @@ public class UtilsTest
             CaptchaId = captchaSolve.CaptchaId,
             CaptchaSolution = captchaSolve.CaptchaSolution
         });
-        
+        Debug.Assert(authResponse.Auth != null);
         return authResponse;
     }
 
@@ -89,10 +88,10 @@ public class UtilsTest
     public async Task GetSubjectList()
     {
         var authResponse = await Auth();
-        
-        var utils = new LycregUtils(_httpClient, _configuration);
-        Debug.Assert(authResponse.Auth != null, "_authResponse.Auth != null");
-        var result = await utils.GetSubjListAsync(authResponse.Auth);
+        var result = await _mediator.Send(new SubjListRequest()
+        {
+            Auth = authResponse.Auth!,
+        });
         
         Assert.That(result, Is.Not.Null);
     }
@@ -101,10 +100,10 @@ public class UtilsTest
     public async Task GetTeachList()
     {
         var authResponse = await Auth();
-        
-        var utils = new LycregUtils(_httpClient, _configuration);
-        Debug.Assert(authResponse.Auth != null, "_authResponse.Auth != null");
-        var result = await utils.GetTeachListAsync(authResponse.Auth);
+        var result = await _mediator.Send(new TeachListRequest
+        {
+            Auth = authResponse.Auth!,
+        });
         
         Assert.That(result, Is.Not.Null);
     }
