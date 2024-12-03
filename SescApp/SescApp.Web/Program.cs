@@ -19,6 +19,8 @@ builder.Services.AddHttpClient();
 
 builder.Services.AddScoped<IScheduleService, ScheduleService>();
 
+builder.Services.AddMemoryCache();
+
 builder.Services.AddMediatR(x => x.RegisterServicesFromAssembly(typeof(AssemblyReference).Assembly));
 
 var app = builder.Build();
