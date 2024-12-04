@@ -2,7 +2,9 @@
 @using MediatR
 @using SescApp.Integration.Lycreg.Models
 @using SescApp.Integration.Lycreg.Models.MediatR
+@using SescApp.Shared.Services
 @inject IMediator mediator
+@inject IUserStorage storage;
 
 <h3>AuthPreview</h3>
 
@@ -65,7 +67,16 @@ else
     {
         editContext = new EditContext(this);
 
-        solvedCaptcha = await mediator.Send(new GetSolvedCaptchaRequest());
+        await storage.InitAsync();
+
+        if (storage.Model.LycregAuth is not null)
+        {
+            Auth = new AuthResponse { Result = AuthorizationResult.Success, Auth = storage.Model.LycregAuth };
+        }
+        else
+        {
+            solvedCaptcha = await mediator.Send(new GetSolvedCaptchaRequest());
+        }
     }
 
     private async Task HandleAsync()
@@ -81,5 +92,11 @@ else
 
         // Обновление состояния компонента
         Auth = resp;
+
+        if (Auth.Result == AuthorizationResult.Success)
+        {
+            storage.Model.LycregAuth = resp.Auth;
+            await storage.SaveChangesAsync();
+        }
     }
 }
