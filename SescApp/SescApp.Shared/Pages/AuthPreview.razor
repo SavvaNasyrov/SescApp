@@ -67,7 +67,7 @@ else
     {
         editContext = new EditContext(this);
 
-        var auth = await storage.GetAsync<Authorization>("lycregAuth");
+        var auth = await storage.GetAsync<Authorization>(StoredDataType.LycregAuth);
 
         if (auth is not null)
         {
@@ -95,7 +95,7 @@ else
 
         if (Auth.Result == AuthorizationResult.Success)
         {
-            await storage.SetAsync("lycregAuth", Auth.Auth!);
+            await storage.SetAsync(StoredDataType.LycregAuth, Auth.Auth!);
         }
     }
 }
