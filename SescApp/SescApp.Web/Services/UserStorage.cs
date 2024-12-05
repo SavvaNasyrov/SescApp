@@ -7,14 +7,14 @@ namespace SescApp.Web.Services
     {
         private readonly ProtectedLocalStorage _localStorage = localStorage;
 
-        public async Task SetAsync(string key, object val)
+        public async Task SetAsync(StoredDataType key, object val)
         {
-            await _localStorage.SetAsync(key, val);
+            await _localStorage.SetAsync(key.ToString(), val);
         }
 
-        public async Task<TValue?> GetAsync<TValue>(string key)
+        public async Task<TValue?> GetAsync<TValue>(StoredDataType key)
         {
-            var res = await _localStorage.GetAsync<TValue>(key);
+            var res = await _localStorage.GetAsync<TValue>(key.ToString());
 
             if (!res.Success)
                 return default;

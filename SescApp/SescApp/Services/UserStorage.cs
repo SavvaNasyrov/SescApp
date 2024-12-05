@@ -6,9 +6,9 @@ namespace SescApp.Services
 {
     public class UserStorage : IUserStorage
     {
-        public async Task<TValue?> GetAsync<TValue>(string key)
+        public async Task<TValue?> GetAsync<TValue>(StoredDataType key)
         {
-            var json = await SecureStorage.GetAsync(key);
+            var json = await SecureStorage.GetAsync(key.ToString());
 
             if (json == null)
                 return default;
@@ -23,11 +23,11 @@ namespace SescApp.Services
             }
         }
 
-        public async Task SetAsync(string key, object val)
+        public async Task SetAsync(StoredDataType key, object val)
         {
             var json = JsonSerializer.Serialize(val);
 
-            await SecureStorage.SetAsync(key, json);
+            await SecureStorage.SetAsync(key.ToString(), json);
         }
     }
 }

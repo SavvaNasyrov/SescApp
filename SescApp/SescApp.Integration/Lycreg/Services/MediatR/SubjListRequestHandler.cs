@@ -27,6 +27,11 @@ namespace SescApp.Integration.Lycreg.Services.MediatR
 
             resp.EnsureSuccessStatusCode();
 
+            var strResp = await resp.Content.ReadAsStringAsync(cancellationToken);
+
+            if (strResp == "none")
+                throw new ArgumentException("Unauthorized");
+
             var result = await resp.Content.ReadFromJsonAsync<Dictionary<string, string>>(cancellationToken)
                          ?? throw new InvalidOperationException("Response is not dict, may be auth problems");
 

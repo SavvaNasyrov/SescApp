@@ -18,4 +18,8 @@
     <ProjectReference Include="..\SescApp.Integration\SescApp.Integration.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\Lycreg\" />
+  </ItemGroup>
+
 </Project>

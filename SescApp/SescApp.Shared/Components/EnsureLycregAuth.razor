@@ -1,0 +1,24 @@
+﻿@using MediatR
+@using SescApp.Integration.Lycreg.Models
+@using SescApp.Integration.Lycreg.Models.MediatR
+@inject IMediator mediator;
+@inject IUserStorage storage;
+@inject NavigationManager nav;
+
+@code {
+    [Parameter]
+    public string ReturnTo { get; set; } = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        var auth = await storage.GetAsync<Authorization>(StoredDataType.LycregAuth);
+
+        if (auth is null)
+            nav.NavigateTo($"/lycreg/auth?returnTo={ReturnTo}");
+
+        var isAuthorized = await mediator.Send(new CheckAuthRequest { Auth = auth! });
+
+        if (!isAuthorized)
+            nav.NavigateTo($"/lycreg/auth?returnTo={ReturnTo}");
+    }
+}

@@ -38,11 +38,14 @@ namespace SescApp.Integration.Lycreg.Services.MediatR
 
             resp.EnsureSuccessStatusCode();
 
+            var strResp = await resp.Content.ReadAsStringAsync(cancellationToken);
+
+            if (strResp == "none")
+                throw new ArgumentException("Unauthorized");
+
             var result = await resp.Content.ReadFromJsonAsync<List<TeachListRowField>>(cancellationToken)
                          ?? throw new InvalidOperationException("Response is not array of tuples, may be auth problems");
-
-            Console.WriteLine(result);
-            Debug.Assert(result is not null);
+            
             return result.ToDictionary(x => x.Login, y => y.Fio).AsReadOnly();
         }
 
