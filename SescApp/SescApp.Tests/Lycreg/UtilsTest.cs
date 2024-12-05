@@ -14,13 +14,13 @@ public class UtilsTest
     private HttpClient _httpClient;
     private IMediator _mediator;
     private IConfiguration _configuration;
-    
+
     [TearDown]
     public void TearDown()
     {
         _httpClient.Dispose();
     }
-    
+
     // Custom configuration implementation
     private class TestConfiguration : IConfiguration
     {
@@ -40,14 +40,14 @@ public class UtilsTest
 
         public IConfigurationSection GetSection(string key) => null;
     }
-    
+
     private static IMediator BuildMediator()
     {
         var services = new ServiceCollection();
         services.AddSingleton<IConfiguration, TestConfiguration>();
         services.AddSingleton<HttpClient, HttpClient>();
         services.AddMemoryCache();
-        
+
         services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssemblies(typeof(AuthRequestHandler).Assembly, typeof(TeachListRequestHandler).Assembly);
@@ -57,7 +57,7 @@ public class UtilsTest
 
         return provider.GetRequiredService<IMediator>();
     }
-    
+
     [SetUp]
     public void Setup()
     {
@@ -71,8 +71,8 @@ public class UtilsTest
         const string login = "login";
         const string password = "password";
         var captchaSolver = new CaptchaSolver(_httpClient, _configuration);
-        var captchaSolve =  await captchaSolver.Handle(new GetSolvedCaptchaRequest(), CancellationToken.None);
-            
+        var captchaSolve = await captchaSolver.Handle(new GetSolvedCaptchaRequest(), CancellationToken.None);
+
         var authResponse = await _mediator.Send(new AuthRequest()
         {
             Login = login,
@@ -92,10 +92,10 @@ public class UtilsTest
         {
             Auth = authResponse.Auth!,
         });
-        
+
         Assert.That(result, Is.Not.Null);
     }
-    
+
     [Test]
     public async Task GetTeachList()
     {
@@ -104,7 +104,7 @@ public class UtilsTest
         {
             Auth = authResponse.Auth!,
         });
-        
+
         Assert.That(result, Is.Not.Null);
     }
 }

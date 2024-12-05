@@ -15,7 +15,7 @@ namespace SescApp.Tests.Lycreg
         // private AuthServiceTests _authService;
         private IMediator _mediator;
         private IConfiguration _configuration;
-        
+
         [TearDown]
         public void TearDown()
         {
@@ -61,7 +61,7 @@ namespace SescApp.Tests.Lycreg
         [SetUp]
         public void Setup()
         {
-            _httpClient = new HttpClient(); 
+            _httpClient = new HttpClient();
             _configuration = new TestConfiguration();
             _mediator = BuildMediator();
         }
@@ -72,8 +72,8 @@ namespace SescApp.Tests.Lycreg
             const string login = "login";
             const string password = "password";
             var captchaSolver = new CaptchaSolver(_httpClient, _configuration);
-            var captchaSolve =  await captchaSolver.Handle(new GetSolvedCaptchaRequest(), CancellationToken.None);
-            
+            var captchaSolve = await captchaSolver.Handle(new GetSolvedCaptchaRequest(), CancellationToken.None);
+
             var authResponse = await _mediator.Send(new AuthRequest()
             {
                 Login = login,

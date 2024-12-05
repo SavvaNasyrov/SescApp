@@ -1,8 +1,8 @@
-﻿using MediatR;
+﻿using System.Text;
+using MediatR;
 using Microsoft.Extensions.Configuration;
 using SescApp.Integration.Lycreg.Models;
 using SescApp.Integration.Lycreg.Models.MediatR;
-using System.Text;
 
 namespace SescApp.Integration.Lycreg.Services.MediatR;
 

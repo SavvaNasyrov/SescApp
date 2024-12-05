@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Net.Http.Json;
+using Microsoft.Extensions.Configuration;
 using SescApp.Integration.Schedule.DomainModels;
 using SescApp.Integration.Schedule.Models;
 using SescApp.Integration.Schedule.Models.ScheduleRows;
-using System.Net.Http.Json;
 
 namespace SescApp.Integration.Schedule.Services.Implementations
 {

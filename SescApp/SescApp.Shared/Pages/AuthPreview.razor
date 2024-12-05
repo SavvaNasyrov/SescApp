@@ -67,11 +67,11 @@ else
     {
         editContext = new EditContext(this);
 
-        await storage.InitAsync();
+        var auth = await storage.GetAsync<Authorization>("lycregAuth");
 
-        if (storage.Model.LycregAuth is not null)
+        if (auth is not null)
         {
-            Auth = new AuthResponse { Result = AuthorizationResult.Success, Auth = storage.Model.LycregAuth };
+            Auth = new AuthResponse { Result = AuthorizationResult.Success, Auth = auth };
         }
         else
         {
@@ -86,7 +86,7 @@ else
             {
                 Login = login,
                 Password = password,
-                CaptchaId = solvedCaptcha.CaptchaId,
+                CaptchaId = solvedCaptcha!.CaptchaId,
                 CaptchaSolution = solvedCaptcha.CaptchaSolution
             });
 
@@ -95,8 +95,7 @@ else
 
         if (Auth.Result == AuthorizationResult.Success)
         {
-            storage.Model.LycregAuth = resp.Auth;
-            await storage.SaveChangesAsync();
+            await storage.SetAsync("lycregAuth", Auth.Auth!);
         }
     }
 }

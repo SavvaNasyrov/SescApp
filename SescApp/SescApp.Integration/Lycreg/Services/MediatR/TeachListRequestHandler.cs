@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics;
-using MediatR;
-using Microsoft.Extensions.Configuration;
-using SescApp.Integration.Lycreg.Models.MediatR;
 using System.Net.Http.Json;
 using System.Text.Json.Serialization;
+using MediatR;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Configuration;
+using SescApp.Integration.Lycreg.Models.MediatR;
 
 namespace SescApp.Integration.Lycreg.Services.MediatR
 {
@@ -14,11 +14,11 @@ namespace SescApp.Integration.Lycreg.Services.MediatR
         {
             [JsonPropertyName("login")]
             public required string Login { get; init; }
-        
+
             [JsonPropertyName("fio")]
             public required string Fio { get; init; }
         }
-        
+
         private readonly string _lycregSource = config["Paths:Lycreg"] ?? throw new KeyNotFoundException("Paths:Lycreg");
 
         private async Task<IReadOnlyDictionary<string, string>> FetchTeachListAsync(TeachListRequest request,
@@ -40,12 +40,12 @@ namespace SescApp.Integration.Lycreg.Services.MediatR
 
             var result = await resp.Content.ReadFromJsonAsync<List<TeachListRowField>>(cancellationToken)
                          ?? throw new InvalidOperationException("Response is not array of tuples, may be auth problems");
-            
+
             Console.WriteLine(result);
             Debug.Assert(result is not null);
             return result.ToDictionary(x => x.Login, y => y.Fio).AsReadOnly();
         }
-        
+
         public async Task<IReadOnlyDictionary<string, string>> Handle(TeachListRequest request, CancellationToken cancellationToken)
         {
             if (!cache.TryGetValue("teachList", out IReadOnlyDictionary<string, string>? teachList))

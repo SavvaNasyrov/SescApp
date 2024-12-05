@@ -1,8 +1,8 @@
-﻿using MediatR;
+﻿using System.Net.Http.Json;
+using MediatR;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using SescApp.Integration.Lycreg.Models.MediatR;
-using System.Net.Http.Json;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace SescApp.Integration.Lycreg.Services.MediatR
 {
@@ -32,7 +32,7 @@ namespace SescApp.Integration.Lycreg.Services.MediatR
 
             return result.AsReadOnly();
         }
-        
+
         public async Task<IReadOnlyDictionary<string, string>> Handle(SubjListRequest request, CancellationToken cancellationToken)
         {
             if (!cache.TryGetValue("subjList", out IReadOnlyDictionary<string, string>? subjList))

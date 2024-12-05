@@ -1,35 +1,33 @@
-﻿using Microsoft.Extensions.Configuration;
-using SescApp.Shared.Models;
-using SescApp.Shared.Services;
+﻿
 using System.Text.Json;
+using SescApp.Shared.Services;
 
 namespace SescApp.Services
 {
-    public class UserStorage(IConfiguration config) : IUserStorage
+    public class UserStorage : IUserStorage
     {
-        private readonly string _filePath = Path.Combine(FileSystem.AppDataDirectory, config["Paths:UserStorage"] ?? "appdata.json");
-
-        public UserStorageModel Model { get; private set; } = UserStorageModel.Default;
-
-        public async Task SaveChangesAsync()
+        public async Task<TValue?> GetAsync<TValue>(string key)
         {
-            var data = JsonSerializer.Serialize(Model);
+            var json = await SecureStorage.GetAsync(key);
 
-            await File.WriteAllTextAsync(_filePath, data);
+            if (json == null)
+                return default;
+
+            try
+            {
+                return JsonSerializer.Deserialize<TValue>(json);
+            }
+            catch
+            {
+                return default;
+            }
         }
 
-        public async Task InitAsync()
+        public async Task SetAsync(string key, object val)
         {
-            if (!File.Exists(_filePath))
-            {
-                Model = UserStorageModel.Default;
-                await File.WriteAllTextAsync(_filePath, JsonSerializer.Serialize(Model));
-            }
-            else
-            {
-                Model = await JsonSerializer.DeserializeAsync<UserStorageModel>(File.OpenRead(_filePath))
-                    ?? throw new InvalidDataException($"File: {_filePath} has incorrect format for UserStorageModel");
-            }
+            var json = JsonSerializer.Serialize(val);
+
+            await SecureStorage.SetAsync(key, json);
         }
     }
 }

@@ -1,9 +1,9 @@
-﻿using MediatR;
+﻿using System.Net.Http.Json;
+using MediatR;
 using Microsoft.Extensions.Configuration;
 using SescApp.Integration.Lycreg.Models;
 using SescApp.Integration.Lycreg.Models.Domain;
 using SescApp.Integration.Lycreg.Models.MediatR;
-using System.Net.Http.Json;
 
 namespace SescApp.Integration.Lycreg.Services.MediatR
 {

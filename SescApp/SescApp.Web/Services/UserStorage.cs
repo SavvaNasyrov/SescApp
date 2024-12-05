@@ -1,41 +1,25 @@
 ﻿using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
-using SescApp.Shared.Models;
 using SescApp.Shared.Services;
 
 namespace SescApp.Web.Services
 {
-    public class UserStorage : IUserStorage
+    public class UserStorage(ProtectedLocalStorage localStorage) : IUserStorage
     {
-        public UserStorageModel Model { get; private set; } = UserStorageModel.Default;
+        private readonly ProtectedLocalStorage _localStorage = localStorage;
 
-        private readonly ProtectedLocalStorage _localStorage;
-
-        private readonly string _key;
-
-        public UserStorage(IConfiguration config, ProtectedLocalStorage localStorage)
+        public async Task SetAsync(string key, object val)
         {
-            _localStorage = localStorage;
-            _key = config["Paths:UserStorage"] ?? "appdata";
+            await _localStorage.SetAsync(key, val);
         }
 
-        public async Task SaveChangesAsync()
+        public async Task<TValue?> GetAsync<TValue>(string key)
         {
-            await _localStorage.SetAsync(_key, Model);
-        }
+            var res = await _localStorage.GetAsync<TValue>(key);
 
-        public async Task InitAsync()
-        {
-            var result = await _localStorage.GetAsync<UserStorageModel>(_key).AsTask();
+            if (!res.Success)
+                return default;
 
-            if (!result.Success || result.Value is null)
-            {
-                Model = UserStorageModel.Default;
-                await _localStorage.SetAsync(_key, Model).AsTask();
-            }
-            else
-            {
-                Model = result.Value;
-            }
+            return res.Value;
         }
     }
 }
