@@ -5,53 +5,63 @@
 @using SescApp.Shared.Services
 @inject IMediator mediator
 @inject IUserStorage storage;
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-body">
+            <h3 class="card-title text-center">Авторизация</h3>
+                
+            @if (Auth is null)
+            {
+                <EditForm EditContext="@editContext" OnValidSubmit="@HandleAsync">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary class="text-danger" />
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Логин:</label>
+                        <InputText id="name" @bind-Value="@login" class="form-control" placeholder="Введите ваш логин" />
+                        <ValidationMessage For="@(() => login)" class="text-danger" />
+                    </div>
 
-<h3>AuthPreview</h3>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Пароль:</label>
+                        <InputText id="password" @bind-Value="@password" type="password" class="form-control" placeholder="Введите ваш пароль" />
+                        <ValidationMessage For="@(() => password)" class="text-danger" />
+                    </div>
 
-@if (Auth is null)
-{
-    <EditForm EditContext="@editContext" OnValidSubmit="@HandleAsync">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-
-        <div>
-            <label for="name">Логин:</label>
-            <InputText id="name" @bind-Value="@login" />
-            <ValidationMessage For="@(() => login)" />
+                    @if (solvedCaptcha is not null)
+                    {
+                        <div class="mb-3">
+                            <label class="form-label">Капча:</label>
+                            <div>
+                                <img src="@($"data:image/png;base64,{Convert.ToBase64String(solvedCaptcha.CaptchaBytes)}")" alt="Капча" class="img-fluid mb-2" />
+                            </div>
+                            <label for="captcha" class="form-label">Решенная капча:</label>
+                            <InputText id="captcha" @bind-Value="@solvedCaptcha.CaptchaSolution" class="form-control" placeholder="Введите решение капчи" />
+                            <ValidationMessage For="@(() => solvedCaptcha.CaptchaSolution)" class="text-danger" />
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Отправить</button>
+                    }
+                    else
+                    {
+                        <p class="text-info">Капча грузится...</p>
+                    }
+                </EditForm>
+            }
+            else
+            {
+                <div class="alert alert-info" role="alert">
+                    <strong>Результат:</strong> @Auth.Result
+                </div>
+                @if (Auth.Result == Integration.Lycreg.Models.AuthorizationResult.Success)
+                {
+                    <div class="alert alert-success" role="alert">
+                        <strong>Ваш токен:</strong> @Auth.Auth!.Token
+                    </div>
+                }
+            }
         </div>
-
-        <div>
-            <label for="password">Пароль:</label>
-            <InputText id="password" @bind-Value="@password" type="password" />
-            <ValidationMessage For="@(() => password)" />
-        </div>
-
-
-        @if (solvedCaptcha is not null)
-        {
-            <div>
-                <img src="@($"data:image/png;base64,{Convert.ToBase64String(solvedCaptcha.CaptchaBytes)}")" alt="Капча" />
-                <br />
-                <label for="captcha">Решенная капча</label>
-                <InputText id="captcha" @bind-Value="@solvedCaptcha.CaptchaSolution" />
-                <ValidationMessage For="@(() => solvedCaptcha.CaptchaSolution)" />
-            </div>
-            <button type="submit">Отправить</button>
-        }
-        else
-        {
-            <p>Капча грузится</p>
-        }
-    </EditForm>
-}
-else
-{
-    <text>@Auth.Result</text>
-    if (Auth.Result == Integration.Lycreg.Models.AuthorizationResult.Success)
-    {
-        <text>@Auth.Auth!.Token</text>
-    }
-}
+    </div>
+</div>
 
 @code {
     private AuthResponse? Auth { get; set; }
