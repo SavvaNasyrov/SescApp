@@ -9,4 +9,6 @@ public record JournalSubject
     public required string TeacherName { get; init; }
     
     public required List<JournalLine> Journal { get; init; }
+    
+    public required List<string> Marks { get; init; }
 }

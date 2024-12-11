@@ -37,7 +37,6 @@ public class FullJournalRequestHandler(HttpClient httpClient, IConfiguration con
         cancellationToken.ThrowIfCancellationRequested();
         
         // преобразовываем сырой json в модельки
-        // _class = _class.split('-') помни что микемка это зачем-то писал (через тире определятся подгруппа)
         var subjectsList = new List<JournalSubject>();
         foreach (var subject in journalData!)
         {
@@ -52,7 +51,7 @@ public class FullJournalRequestHandler(HttpClient httpClient, IConfiguration con
                 .ToList();
 
             var parts = subject.Key.Split('_');
-            var subgroup = parts[0].Split('-').Length == 2 ? parts[0].Split('-')[1] : null; // класс обучения
+            var subgroup = parts[0].Split('-').Length == 2 ? parts[0].Split('-')[1] : null; // подгруппа обучения
             var subjectId = parts[1];
             var teacherLogin = parts[2];
             
@@ -70,7 +69,10 @@ public class FullJournalRequestHandler(HttpClient httpClient, IConfiguration con
                 SubjectName = subjList[subjectId],
                 Subgroup = subgroup,
                 TeacherName = teacherList[teacherLogin],
-                Journal = lessonsList
+                Journal = lessonsList,
+                Marks = lessonsList
+                    .SelectMany(lesson => lesson.Marks ?? Enumerable.Empty<string>())
+                    .ToList()
             };
             subjectsList.Add(journalSubject);
         }
