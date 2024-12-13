@@ -12,7 +12,7 @@ public class DateConverter : IDateConverter
             month = (month > 8) ? (month - 9) : (month + 3);
             return new DateTime(DateTime.Now.Year, month, day);
         }
-        else if (e.Contains('.'))
+        if (e.Contains('.'))
         {
             var parts = e.Split('.');
             var day = parts[0];
